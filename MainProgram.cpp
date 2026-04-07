@@ -82,21 +82,11 @@ public:
 
 // ---- Constructors ----
 
-MyString::MyString() {
-    data = " ";
-}
+MyString::MyString() : data ("") {}
 
-MyString::MyString(const string& str) {
-    data = str ;
-}
+MyString::MyString(const string& str) : data(str){}
 
-MyString::MyString(const char* str) {
-    if (str !=nullptr){
-        data = str;
-    }else {
-        data = "";
-    }
-}
+MyString::MyString(const char* str) : data(str) {}
 
 // ---- Getter ----
 
@@ -112,14 +102,14 @@ int MyString::length() const {
 
 char MyString::charAt(int index) const {
     if (index<0 || index >=  static_cast<int>(data.length())){
-        throw out_of_range ("hata");
+        throw out_of_range ("Index out of range in charAt");
     }
     return data [index];
 }
 
 MyString MyString::substring(int start, int len) const {
     if (start <0 || start  >=  static_cast<int>(data.length())){
-        throw out_of_range ("hata");
+        throw out_of_range ("Index out of range in charAt");
     }
     return MyString(data.substr(start,len));
 }
@@ -127,29 +117,38 @@ MyString MyString::substring(int start, int len) const {
 // ---- String Manipulation ----
 
 MyString MyString::toUpperCase() const {
+    // TODO: Return a NEW MyString with all characters converted to upper case
+    // Hint: Use std::transform with ::toupper
+    // Do NOT modify the original object
     string result = data ;
-    transform(result.begin(), result.end(),result.begin(), [] (unsigned char c){return toupper(c);});
+    transform(result.begin() , result.end() , result.begin(),
+    [](unsigned char c) {return toupper(c);});
     return MyString(result);
 }
-
+ 
 MyString MyString::toLowerCase() const {
+    // TODO: Return a NEW MyString with all characters converted to lower case
+    // Hint: Use std::transform with ::tolower
+    // Do NOT modify the original object
     string result = data ;
-    transform(result.begin(), result.end(),result.begin(), [] (unsigned char c){return tolower(c);});
+    transform(result.begin() , result.end() , result.begin(),
+    [](unsigned char c) {return tolower(c);});
     return MyString(result);
 }
-
+ 
 MyString MyString::trim() const {
-    size_t start=data.find_first_not_of(" \t\n\r");
-    if(start==string::npos) {
-        return MyString ("");
-    } 
-    size_t end = data.find_first_not_of(" \t\n\r");
-    return MyString(data.substr(start,end-start +1));
+    size_t first = data.find_first_not_of(" \t\n\r");
+    if (first == string::npos) {
+        return MyString(""); 
+    }
+    size_t last = data.find_last_not_of(" \t\n\r");
+    return MyString(data.substr(first, (last - first + 1)));
 }
-
+ 
 MyString MyString::reverse() const {
-    string result = data;
-    std::reverse(result.begin(), result.end());
+    // TODO: Return a NEW MyString with characters in reverse order
+    // Hint: Use std::reverse on a copy
+    string result =data ; std::reverse(result.begin(), result.end());
     return MyString(result);
 }
 
